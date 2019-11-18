@@ -1,82 +1,43 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[415]:
+# In[106]:
+
+
+from datetime import date
+today = date.today()
+
+
+# In[107]:
 
 
 import pandas as pd
 
-
-# In[416]:
-
-
 test_x='test1.csv'
 check_x='check.csv'
-
-
-# In[417]:
-
 
 test_df=pd.read_csv(test_x,header=0,encoding = 'unicode_escape')
 check_df=pd.read_csv(check_x,header=0,encoding = 'unicode_escape')
 
-
-# In[418]:
-
-
 x_df = ((test_df[test_df['Ping'] != '[n/a]' ])) 
-
-
-# In[419]:
-
 
 xx_df=x_df.reset_index(drop=True)
 
-
-# In[420]:
-
-
 xxx_df=xx_df.join(check_df)
-
-
-# In[421]:
-
 
 xxx_dfx=xxx_df
 
-
-# In[422]:
-
-
 xxx_dfx=xxx_dfx.dropna()
-
-
-# In[430]:
 
 
 s=xxx_dfx['mac_adres']
 s=len(s)
 s=s
-
-
-# In[431]:
-
-
-
 d=xxx_df['MAC Address']
 d=len(d)
 d=d-1
-
-
-# In[432]:
-
-
-col_name=['present']
+col_name=['names']
 x_c=pd.DataFrame(columns=col_name)
-
-
-# In[435]:
-
 
 fg=[]
 for i in range(s):
@@ -89,10 +50,75 @@ for i in range(s):
 print(fg)
 
 
+# In[136]:
+
+
+customer_data_file = 'attendence_mac.xlsx'
+name_df = pd.read_excel(customer_data_file,
+sheetname=0,
+header=0,
+index_col=False,
+keep_default_na=True
+)
+
+
+# In[139]:
+
+
+f=name_df['names']
+f=len(f)
+f=f
+h=len(fg)
+
+
+# In[140]:
+
+
+x_c['names_fg']=fg
+
+
+# In[141]:
+
+
+l=[]
+for i in range(f):
+    count=0
+    for j in range(h):
+        a= name_df.iloc[i]['names'] == x_c.iloc[j]['names_fg']
+        if a == True:
+            count=count+1
+    if count ==1:
+        l.append('p')
+        
+    else:
+        l.append('ab')
+                
+            
+
+
+# In[142]:
+
+
+
+name_df[today]=l
+
+
+# In[143]:
+
+
+final=name_df
+
+
 # In[ ]:
 
 
 
+
+
+# In[144]:
+
+
+final.to_excel(r'attendence_mac.xlsx', index=False)
 
 
 # In[ ]:
